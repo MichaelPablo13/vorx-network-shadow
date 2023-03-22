@@ -26,6 +26,28 @@ resource "aws_subnet" "vorx-subnet-priv-1a" {
   }
 }
 
+resource "aws_subnet" "vorx-subnet-pub-1b" {
+  vpc_id     = aws_vpc.vorx-vpc-prod.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "prod-public-subnet-1b"
+  }
+}
+
+resource "aws_subnet" "vorx-subnet-priv-1b" {
+  vpc_id     = aws_vpc.vorx-vpc-prod.id
+  cidr_block = "10.0.20.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "Private-Subnet-1b"
+  }
+}
+
+
+
 ## OUTPUTS DO NOSSO TF ##
 output "vpc_vorx_prod_id" {
 value = aws_vpc.vorx-vpc-prod.id
@@ -39,3 +61,6 @@ output "vorx_prod_subnet_pub-1a" {
 value = aws_subnet.vorx-subnet-pub-1a.id
 }
 
+output "vorx_prod_subnet_pub-1b" {
+value = aws_subnet.vorx-subnet-pub-1b.id
+}
