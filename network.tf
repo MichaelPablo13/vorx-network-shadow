@@ -35,8 +35,7 @@ output "vpc_vorx_prod_arn" {
 value = aws_vpc.vorx-vpc-prod.arn
 }
 
-output "vorx_prod_subnets" {
-value = aws_subnet.*.id
+output "vorx_prod_subnet_pub-1a" {
+value = aws_subnet.vorx-subnet-pub-1a.id
 }
-
 
