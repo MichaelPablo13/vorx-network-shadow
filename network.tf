@@ -46,6 +46,26 @@ resource "aws_subnet" "vorx-subnet-priv-1b" {
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.vorx-vpc-prod.id
+
+  tags = {
+    Name = "igw-prod-vorx-vpc"
+  }
+}
+
+resource "aws_route_table" "public-rt" {
+  vpc_id = aws_vpc.vorx-vpc-prod.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "prod-public-rt"
+  }
+}
 
 
 ## OUTPUTS DO NOSSO TF ##
