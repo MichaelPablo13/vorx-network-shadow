@@ -2,7 +2,7 @@ resource "aws_vpc" "vorx-vpc-prod" {
   cidr_block       = "10.0.0.0/16"
 
   tags = {
-    Name = "Vorx-PRODssss"
+    Name = "Vorx-PRODUCTION"
   }
 }
 
@@ -22,14 +22,14 @@ resource "aws_subnet" "vorx-subnet-priv-1a" {
   availability_zone = "us-east-1a"
 
   tags = {
-    Name = "Private-Subnet-1a"
+    Name = "prod-private-subnet-1a"
   }
 }
 
 resource "aws_subnet" "vorx-subnet-pub-1b" {
   vpc_id     = aws_vpc.vorx-vpc-prod.id
   cidr_block = "10.0.2.0/24"
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name = "prod-public-subnet-1b"
@@ -42,7 +42,7 @@ resource "aws_subnet" "vorx-subnet-priv-1b" {
   availability_zone = "us-east-1b"
 
   tags = {
-    Name = "Private-Subnet-1b"
+    Name = "prod-private-subnet-1b"
   }
 }
 
@@ -66,6 +66,17 @@ resource "aws_route_table" "public-rt" {
     Name = "prod-public-rt"
   }
 }
+
+resource "aws_route_table_association" "pub-rt-1a-associate" {
+  subnet_id      = aws_subnet.vorx-subnet-pub-1a.id
+  route_table_id = aws_route_table.public-rt.id
+}
+
+resource "aws_route_table_association" "pub-rt-1b-associate" {
+  subnet_id      = aws_subnet.vorx-subnet-pub-1b.id
+  route_table_id = aws_route_table.public-rt.id
+}
+
 
 resource "aws_route_table" "private-rt-1a" {
   vpc_id = aws_vpc.vorx-vpc-prod.id
@@ -107,6 +118,6 @@ output "vorx_prod_subnet_pub-1a" {
 value = aws_subnet.vorx-subnet-pub-1a.id
 }
 
-output "vorx_prod_subnet_pub-1b" {
-value = aws_subnet.vorx-subnet-pub-1b.id
+output "vorx_prod_subnet_priv-1a" {
+value = aws_subnet.vorx-subnet-priv-1a.id
 }
